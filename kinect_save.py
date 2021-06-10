@@ -40,6 +40,6 @@ with device.running():
 for t, im in by_type.items():
     fmt = "png"
     if "Depth" in t:
-        fmt = "ext"
+        fmt = "exr"
         im = im.astype("float32")
     cv2.imwrite("captures/{}_kinect_{}.{}".format(sys.argv[1], t, fmt), im)

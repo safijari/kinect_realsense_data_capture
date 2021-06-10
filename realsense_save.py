@@ -1,6 +1,7 @@
 import pyrealsense2 as rs
 import numpy as np
 import cv2
+import imageio
 
 import sys
 
@@ -36,9 +37,9 @@ try:
 finally:
     pipeline.stop()
 
-cv2.imwrite("/code/captures/{}_rs_emitter_left.jpg".format(sys.argv[1]), nir_lf_image)
-cv2.imwrite("/code/captures/{}_rs_emitter_right.ext".format(sys.argv[1]), nir_rg_image.astype("float32"))
-cv2.imwrite("/code/captures/{}_rs_emitter_color.jpg".format(sys.argv[1]), col_image)
+imageio.imwrite("/code/captures/{}_rs_emitter_left.jpg".format(sys.argv[1]), nir_lf_image)
+imageio.imwrite("/code/captures/{}_rs_emitter_right.jpg".format(sys.argv[1]), nir_rg_image)
+imageio.imwrite("/code/captures/{}_rs_emitter_color.jpg".format(sys.argv[1]), col_image)
 cv2.imwrite("/code/captures/{}_rs_emitter_depth.exr".format(sys.argv[1]), depth_image.astype("float32"))
 
 points = rs.points()
@@ -74,7 +75,7 @@ try:
 finally:
     pipeline.stop()
 
-cv2.imwrite("/code/captures/{}_rs_noemitter_left.jpg".format(sys.argv[1]), nir_lf_image)
-cv2.imwrite("/code/captures/{}_rs_noemitter_right.jpg".format(sys.argv[1]), nir_rg_image)
-cv2.imwrite("/code/captures/{}_rs_noemitter_color.jpg".format(sys.argv[1]), col_image)
-cv2.imwrite("/code/captures/{}_rs_noemitter_depth.png".format(sys.argv[1]), depth_image)
+imageio.imwrite("/code/captures/{}_rs_noemitter_left.jpg".format(sys.argv[1]), nir_lf_image)
+imageio.imwrite("/code/captures/{}_rs_noemitter_right.jpg".format(sys.argv[1]), nir_rg_image)
+imageio.imwrite("/code/captures/{}_rs_noemitter_color.jpg".format(sys.argv[1]), col_image)
+cv2.imwrite("/code/captures/{}_rs_noemitter_depth.exr".format(sys.argv[1]), depth_image.astype("float32"))
