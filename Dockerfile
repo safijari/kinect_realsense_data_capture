@@ -30,4 +30,4 @@ RUN pip3 install pillow
 
 RUN ln -s /root/freenect2/lib/libfreenect2.so.0.2 /usr/lib/libfreenect2.so.0.2
 
-RUN pip3 install numpy
+RUN pip3 install numpy imageio
