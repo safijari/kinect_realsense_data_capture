@@ -18,6 +18,23 @@ device = profile.get_device()
 depth_sensor = device.query_sensors()[0]
 depth_sensor.set_option(rs.option.emitter_enabled, 1)
 
+
+def get_extrinsics(src, dst):
+    extrinsics = src.get_extrinsics_to(dst)
+    R = np.reshape(extrinsics.rotation, [3,3]).T
+    T = np.array(extrinsics.translation)
+    return (R, T)
+
+def camera_matrix(inT):
+    R, T = inT
+    return np.vstack((R, T))
+
+"""
+Returns the fisheye distortion from librealsense intrinsics
+"""
+def fisheye_distortion(intrinsics):
+    return np.array(intrinsics.coeffs[:4])
+
 try:
     for i in range(10):
         frames = pipeline.wait_for_frames()
@@ -51,6 +68,22 @@ config.enable_stream(rs.stream.depth, 1280, 720, rs.format.z16, 30)
 config.enable_stream(rs.stream.color, 1920, 1080, rs.format.bgr8, 30)
 profile = pipeline.start(config)
 
+i1_stream = profile.get_stream(rs.stream.infrared, 1)
+i2_stream = profile.get_stream(rs.stream.infrared, 2)
+color_stream = profile.get_stream(rs.stream.color)
+depth_stream = profile.get_stream(rs.stream.depth)
+
+out = ""
+out += str(i1_stream.as_video_stream_profile().get_intrinsics()) + "\n"
+out += str(i2_stream.as_video_stream_profile().get_intrinsics()) + "\n"
+out += str(color_stream.as_video_stream_profile().get_intrinsics()) + "\n"
+out += str(depth_stream.as_video_stream_profile().get_intrinsics()) + "\n"
+out += str(camera_matrix(get_extrinsics(i1_stream, color_stream)).tolist()) + "\n"
+out += str(camera_matrix(get_extrinsics(i2_stream, color_stream)).tolist()) + "\n"
+out += str(camera_matrix(get_extrinsics(color_stream, color_stream)).tolist()) + "\n"
+out += str(camera_matrix(get_extrinsics(depth_stream, color_stream)).tolist()) + "\n"
+
+
 device = profile.get_device()
 depth_sensor = device.query_sensors()[0]
 depth_sensor.set_option(rs.option.emitter_enabled, 0)
@@ -79,3 +112,6 @@ imageio.imwrite("/code/captures/{}_rs_noemitter_left.jpg".format(sys.argv[1]), n
 imageio.imwrite("/code/captures/{}_rs_noemitter_right.jpg".format(sys.argv[1]), nir_rg_image)
 imageio.imwrite("/code/captures/{}_rs_noemitter_color.jpg".format(sys.argv[1]), col_image)
 cv2.imwrite("/code/captures/{}_rs_noemitter_depth.exr".format(sys.argv[1]), depth_image.astype("float32"))
+
+with open("/code/captures/realsense_params.json", "w") as f:
+    f.write(out)

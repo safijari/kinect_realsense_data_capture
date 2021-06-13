@@ -60,7 +60,6 @@ with open('captures/{}_kienct_pcbig.pcd'.format(sys.argv[1]), 'wb') as fobj:
    device.registration.write_big_pcd(fobj, big_depth, rgb)
 
 cv2.imwrite("captures/{}_kinect_colorbig.png".format(sys.argv[1]), np.asarray(rgb.to_image())[:, :, ::-1])
-import ipdb; ipdb.set_trace()
 cv2.imwrite("captures/{}_kinect_color.png".format(sys.argv[1]), np.asarray(registered.to_image()))
 cv2.imwrite("captures/{}_kinect_depthbig.exr".format(sys.argv[1]), np.asarray(big_depth.to_image()).astype("float32"))
 cv2.imwrite("captures/{}_kinect_depth.exr".format(sys.argv[1]), np.asarray(depth.to_image()).astype("float32"))
