@@ -8,6 +8,10 @@ import sys
 points = rs.points()
 pipeline = rs.pipeline()
 config = rs.config()
+
+if len(sys.argv) > 2:
+  # If a serial number is provided, select the correct realsense device
+  config.enable_device(sys.argv[2])
 config.enable_stream(rs.stream.infrared, 1, 1280, 720, rs.format.y8, 30)
 config.enable_stream(rs.stream.infrared, 2, 1280, 720, rs.format.y8, 30)
 config.enable_stream(rs.stream.depth, 1280, 720, rs.format.z16, 30)
