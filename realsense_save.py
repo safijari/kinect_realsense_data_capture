@@ -10,8 +10,8 @@ pipeline = rs.pipeline()
 config = rs.config()
 
 if len(sys.argv) > 2:
-  # If a serial number is provided, select the correct realsense device
-  config.enable_device(sys.argv[2])
+    # If a serial number is provided, select the correct realsense device
+    config.enable_device(sys.argv[2])
 config.enable_stream(rs.stream.infrared, 1, 1280, 720, rs.format.y8, 30)
 config.enable_stream(rs.stream.infrared, 2, 1280, 720, rs.format.y8, 30)
 config.enable_stream(rs.stream.depth, 1280, 720, rs.format.z16, 30)
@@ -25,19 +25,24 @@ depth_sensor.set_option(rs.option.emitter_enabled, 1)
 
 def get_extrinsics(src, dst):
     extrinsics = src.get_extrinsics_to(dst)
-    R = np.reshape(extrinsics.rotation, [3,3]).T
+    R = np.reshape(extrinsics.rotation, [3, 3]).T
     T = np.array(extrinsics.translation)
     return (R, T)
+
 
 def camera_matrix(inT):
     R, T = inT
     return np.vstack((R, T))
 
+
 """
 Returns the fisheye distortion from librealsense intrinsics
 """
+
+
 def fisheye_distortion(intrinsics):
     return np.array(intrinsics.coeffs[:4])
+
 
 try:
     for i in range(10):
@@ -54,7 +59,7 @@ try:
         col_image = np.asanyarray(col_frame.get_data())
         depth_image = np.asanyarray(depth_frame.get_data())
         # horizontal stack
-        image=np.hstack((nir_lf_image,nir_rg_image))
+        image = np.hstack((nir_lf_image, nir_rg_image))
 finally:
     pipeline.stop()
 
@@ -66,6 +71,10 @@ cv2.imwrite("/code/captures/{}_rs_emitter_depth.exr".format(sys.argv[1]), depth_
 points = rs.points()
 pipeline = rs.pipeline()
 config = rs.config()
+
+if len(sys.argv) > 2:
+    # If a serial number is provided, select the correct realsense device
+    config.enable_device(sys.argv[2])
 config.enable_stream(rs.stream.infrared, 1, 1280, 720, rs.format.y8, 30)
 config.enable_stream(rs.stream.infrared, 2, 1280, 720, rs.format.y8, 30)
 config.enable_stream(rs.stream.depth, 1280, 720, rs.format.z16, 30)
@@ -108,7 +117,7 @@ try:
         col_image = np.asanyarray(col_frame.get_data())
         depth_image = np.asanyarray(depth_frame.get_data())
         # horizontal stack
-        image=np.hstack((nir_lf_image,nir_rg_image))
+        image = np.hstack((nir_lf_image, nir_rg_image))
 finally:
     pipeline.stop()
 
