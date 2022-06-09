@@ -1,4 +1,4 @@
 #!/bin/bash
-time=`date +%s`
-python3 realsense_save.py "$time" $1
-python3 kinect_save.py "$time"
+
+python3 realsense_save.py $1 $2
+python3 kinect_save.py $1

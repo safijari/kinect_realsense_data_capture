@@ -63,10 +63,10 @@ try:
 finally:
     pipeline.stop()
 
-imageio.imwrite("/code/captures/{}_rs_emitter_left.jpg".format(sys.argv[1]), nir_lf_image)
-imageio.imwrite("/code/captures/{}_rs_emitter_right.jpg".format(sys.argv[1]), nir_rg_image)
-imageio.imwrite("/code/captures/{}_rs_emitter_color.jpg".format(sys.argv[1]), col_image)
-cv2.imwrite("/code/captures/{}_rs_emitter_depth.exr".format(sys.argv[1]), depth_image.astype("float32"))
+imageio.imwrite("/captures/{}_rs_emitter_left.jpg".format(sys.argv[1]), nir_lf_image)
+imageio.imwrite("/captures/{}_rs_emitter_right.jpg".format(sys.argv[1]), nir_rg_image)
+imageio.imwrite("/captures/{}_rs_emitter_color.jpg".format(sys.argv[1]), col_image)
+cv2.imwrite("/captures/{}_rs_emitter_depth.exr".format(sys.argv[1]), depth_image.astype("float32"))
 
 points = rs.points()
 pipeline = rs.pipeline()
@@ -121,10 +121,10 @@ try:
 finally:
     pipeline.stop()
 
-imageio.imwrite("/code/captures/{}_rs_noemitter_left.jpg".format(sys.argv[1]), nir_lf_image)
-imageio.imwrite("/code/captures/{}_rs_noemitter_right.jpg".format(sys.argv[1]), nir_rg_image)
-imageio.imwrite("/code/captures/{}_rs_noemitter_color.jpg".format(sys.argv[1]), col_image)
-cv2.imwrite("/code/captures/{}_rs_noemitter_depth.exr".format(sys.argv[1]), depth_image.astype("float32"))
+imageio.imwrite("/captures/{}_rs_noemitter_left.jpg".format(sys.argv[1]), nir_lf_image)
+imageio.imwrite("/captures/{}_rs_noemitter_right.jpg".format(sys.argv[1]), nir_rg_image)
+imageio.imwrite("/captures/{}_rs_noemitter_color.jpg".format(sys.argv[1]), col_image)
+cv2.imwrite("/captures/{}_rs_noemitter_depth.exr".format(sys.argv[1]), depth_image.astype("float32"))
 
-with open("/code/captures/realsense_params.json", "w") as f:
+with open("/captures/realsense_params.json", "w") as f:
     f.write(out)
