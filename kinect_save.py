@@ -11,7 +11,7 @@ device = Device()
 with device.running():
     rgb_params = device.color_camera_params
     ir_params = device.ir_camera_params
-    with open("captures/kinect_calib.json", "w") as fobj:
+    with open("/captures/kinect_calib.json", "w") as fobj:
         json.dump(
             {
                 "color": dict(
@@ -53,16 +53,16 @@ undistorted, registered, big_depth = device.registration.apply(
     rgb, depth, with_big_depth=True)
 
 # Combine the depth and RGB data together into a single point cloud.
-with open('captures/{}_kinect_pc.pcd'.format(sys.argv[1]), 'wb') as fobj:
+with open('/captures/{}_kinect_pc.pcd'.format(sys.argv[1]), 'wb') as fobj:
     device.registration.write_pcd(fobj, undistorted, registered)
 
-with open('captures/{}_kienct_pcbig.pcd'.format(sys.argv[1]), 'wb') as fobj:
+with open('/captures/{}_kienct_pcbig.pcd'.format(sys.argv[1]), 'wb') as fobj:
    device.registration.write_big_pcd(fobj, big_depth, rgb)
 
-cv2.imwrite("captures/{}_kinect_colorbig.png".format(sys.argv[1]), np.asarray(rgb.to_image())[:, :, ::-1])
-cv2.imwrite("captures/{}_kinect_color.png".format(sys.argv[1]), np.asarray(registered.to_image()))
-cv2.imwrite("captures/{}_kinect_depthbig.exr".format(sys.argv[1]), np.asarray(big_depth.to_image()).astype("float32"))
-cv2.imwrite("captures/{}_kinect_depth.exr".format(sys.argv[1]), np.asarray(depth.to_image()).astype("float32"))
+cv2.imwrite("/captures/{}_kinect_colorbig.png".format(sys.argv[1]), np.asarray(rgb.to_image())[:, :, ::-1])
+cv2.imwrite("/captures/{}_kinect_color.png".format(sys.argv[1]), np.asarray(registered.to_image()))
+cv2.imwrite("/captures/{}_kinect_depthbig.exr".format(sys.argv[1]), np.asarray(big_depth.to_image()).astype("float32"))
+cv2.imwrite("/captures/{}_kinect_depth.exr".format(sys.argv[1]), np.asarray(depth.to_image()).astype("float32"))
 
 # for t, im in by_type.items():
 #     fmt = "png"
